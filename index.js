@@ -10,9 +10,9 @@ bot.use((ctx, next) => {
     next();
 });
 bot.start((ctx) => {
-    ctx.reply("What would you like to do?", optionButtons);
+    ctx.reply("သင်ဘာလုပ်ချင်ပါသလဲ?", optionButtons);
 });
-bot.hears('Want To Bet?', (ctx) => {
+bot.hears('လောင်းချင်ပါသလား?', (ctx) => {
     ctx.getChatAdministrators().then(admins => {
         // let adminTxt = "";
         // admins.forEach(admin => {
@@ -25,10 +25,10 @@ bot.hears('Want To Bet?', (ctx) => {
     ctx.reply(`Contact admins`);
     ctx.replyWithContact('+95 9977432056', 'Naung Nine');
 });
-bot.hears('Want To Claim Your Money?', (ctx) => ctx.reply('Do That'));
-bot.hears('How To Bet?', (ctx) => ctx.reply('Do This Shit'));
+bot.hears('ပိုက်ဆံထုတ်ချင်ပါသလား?', (ctx) => ctx.reply('Do That'));
+bot.hears('ဘယ်လိုလောင်းရမလဲ?', (ctx) => ctx.reply('Do This Shit'));
 bot.on('chat_member', ctx => {
-    ctx.reply("What would you like to do?", optionButtons);
+    ctx.reply("သင်ဘာလုပ်ချင်ပါသလဲ?", optionButtons);
 });
 bot.launch();
 
