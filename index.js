@@ -1,10 +1,22 @@
-const { Telegraf, Markup } = require('telegraf')
+const fs = require('fs');
+let admins = [];
+let howToBetVideo = "Sorry. No video currently available";
+try {
+    const data = fs.readFileSync('config.json', 'utf8');
+    const config = JSON.parse(data);
+    admins = config.admins;
+    if (config.videoLink)howToBetVideo = config.videoLink;
+    console.log(config);
+} catch (err) {
+    console.error(err)
+}
+const { Telegraf, Markup } = require('telegraf');
 const botAPIKey = process.env.TELEGRAM_BOT_TOKEN;
 const bot = new Telegraf(botAPIKey);
 const optionButtons = Markup.keyboard([
-    "Want To Bet?",
-    "Want To Claim Your Money?",
-    "How To Bet?"
+    "ငွေသွင်းချင်တယ်",
+    "ငွေထုတ်ချင်တယ်",
+    "ဘယ်လိုလောင်းရမလဲ?"
 ]);
 bot.use((ctx, next) => {
     next();
@@ -12,22 +24,25 @@ bot.use((ctx, next) => {
 bot.start((ctx) => {
     ctx.reply("သင်ဘာလုပ်ချင်ပါသလဲ?", optionButtons);
 });
-bot.hears('လောင်းချင်ပါသလား?', (ctx) => {
-    ctx.getChatAdministrators().then(admins => {
-        // let adminTxt = "";
-        // admins.forEach(admin => {
-        //     adminTxt+= `@${admin.user.first_name}, `;
-        // });
-        console.log(admins);
-    }, error => {
-        console.log(error);
-    });
+bot.hears('ငွေသွင်းချင်တယ်', (ctx) => {
     ctx.reply(`Contact admins`);
-    ctx.replyWithContact('+95 9977432056', 'Naung Nine');
+    setTimeout(()=>{
+        admins.forEach(admin => {
+            ctx.replyWithContact(admin.phone, admin.name);
+        });
+    }, 200);
 });
-bot.hears('ပိုက်ဆံထုတ်ချင်ပါသလား?', (ctx) => ctx.reply('Do That'));
-bot.hears('ဘယ်လိုလောင်းရမလဲ?', (ctx) => ctx.reply('Do This Shit'));
-bot.on('chat_member', ctx => {
+bot.hears('ငွေထုတ်ချင်တယ်', (ctx) => {
+    ctx.reply(`Contact admins`);
+    setTimeout(()=>{
+        admins.forEach(admin => {
+            ctx.replyWithContact(admin.phone, admin.name);
+        });
+    }, 200);
+});
+bot.hears('ဘယ်လိုလောင်းရမလဲ?', (ctx) => ctx.reply(howToBetVideo ?? 'Sorry. No video currently available'));
+bot.on('new_chat_members', ctx => {
+    console.log("Chat Member Updated")
     ctx.reply("သင်ဘာလုပ်ချင်ပါသလဲ?", optionButtons);
 });
 bot.launch();
