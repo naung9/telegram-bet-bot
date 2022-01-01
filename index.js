@@ -40,7 +40,7 @@ bot.hears('ငွေထုတ်ချင်တယ်', (ctx) => {
         });
     }, 200);
 });
-bot.hears('ဘယ်လိုလောင်းရမလဲ?', (ctx) => ctx.reply(howToBetVideo ?? 'Sorry. No video currently available'));
+bot.hears('ဘယ်လိုလောင်းရမလဲ?', (ctx) => ctx.reply(howToBetVideo));
 bot.on('new_chat_members', ctx => {
     console.log("Chat Member Updated")
     ctx.reply("သင်ဘာလုပ်ချင်ပါသလဲ?", optionButtons);
