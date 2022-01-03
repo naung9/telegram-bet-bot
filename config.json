@@ -9,5 +9,8 @@
       "phone": "+95 9785000899"
     }
   ],
-  "videoLink": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+  "keywords": ["hi", "hello", "ဘယ်လို", "ငွေ"],
+  "videos": {
+    "Bot Testing": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+  }
 }
