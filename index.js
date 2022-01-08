@@ -1,14 +1,14 @@
 const fs = require('fs');
 let admins = [];
 let keyWords = [];
-let videos = {};
+let groups = {};
 try {
     const data = fs.readFileSync('config.json', 'utf8');
     const config = JSON.parse(data);
     admins = config.admins;
     keyWords = config.keywords;
-    videos = config.videos;
-    console.log(config);
+    groups = config.groups;
+    // console.log(config);
 } catch (err) {
     console.error(err)
 }
@@ -18,7 +18,7 @@ const bot = new Telegraf(botAPIKey);
 const optionButtons = Markup.keyboard([
     "ငွေသွင်းချင်တယ်",
     "ငွေထုတ်ချင်တယ်",
-    "ဘယ်လိုလောင်းရမလဲ?"
+    "Account ဖွင့်နည်း"
 ]);
 bot.use((ctx, next) => {
     next();
@@ -27,31 +27,43 @@ bot.start((ctx) => {
     ctx.reply("သင်ဘာလုပ်ချင်ပါသလဲ?", optionButtons);
 });
 bot.hears('ငွေသွင်းချင်တယ်', (ctx) => {
-    console.log(ctx.chat);
-    ctx.reply(`Contact admins`);
-    setTimeout(()=>{
-        admins.forEach(admin => {
-            ctx.replyWithContact(admin.phone, admin.name);
-        });
-    }, 200);
+    // setTimeout(()=>{
+    //     let replyPromises = [];
+    //     admins.forEach(admin => {
+    //         ctx.replyWithContact(admin.phone, admin.name);
+    //     });
+    //     Promise.all(replyPromises).then(_=>{
+    //
+    //     });
+    // }, 200);
+    if(ctx.chat.type === "group"){
+        if(groups[ctx.chat.title]){
+            ctx.reply(groups[ctx.chat.title].depositText);
+        }
+    }
 });
 bot.hears('ငွေထုတ်ချင်တယ်', (ctx) => {
-    ctx.reply(`Contact admins`);
-    setTimeout(()=>{
-        admins.forEach(admin => {
-            ctx.replyWithContact(admin.phone, admin.name);
-        });
-    }, 200);
+    // ctx.reply(`Contact admins`);
+    // setTimeout(()=>{
+    //     admins.forEach(admin => {
+    //         ctx.replyWithContact(admin.phone, admin.name);
+    //     });
+    // }, 200);
+    if(ctx.chat.type === "group"){
+        if(groups[ctx.chat.title]){
+            ctx.reply(groups[ctx.chat.title].withdrawText);
+        }
+    }
 });
-bot.hears('ဘယ်လိုလောင်းရမလဲ?', (ctx) => {
+bot.hears('Account ဖွင့်နည်း', (ctx) => {
     let videoLink = "Sorry. No video currently available";
     if(ctx.chat.type === "group"){
-        if(videos[ctx.chat.title])videoLink = videos[ctx.chat.title];
+        if(groups[ctx.chat.title])videoLink = groups[ctx.chat.title].video;
     }
     ctx.reply(videoLink);
 });
 bot.on('new_chat_members', ctx => {
-    console.log("Chat Member Updated")
+    console.log("Chat Member Updated");
     ctx.reply("သင်ဘာလုပ်ချင်ပါသလဲ?", optionButtons);
 });
 bot.on('text', ctx => {
