@@ -36,7 +36,7 @@ bot.hears('ငွေသွင်းချင်တယ်', (ctx) => {
     //
     //     });
     // }, 200);
-    if(ctx.chat.type === "group"){
+    if(ctx.chat.type.toLowerCase().includes("group")){
         if(groups[ctx.chat.title]){
             ctx.reply(groups[ctx.chat.title].depositText);
         }
@@ -49,7 +49,8 @@ bot.hears('ငွေထုတ်ချင်တယ်', (ctx) => {
     //         ctx.replyWithContact(admin.phone, admin.name);
     //     });
     // }, 200);
-    if(ctx.chat.type === "group"){
+
+    if(ctx.chat.type.toLowerCase().includes("group")){
         if(groups[ctx.chat.title]){
             ctx.reply(groups[ctx.chat.title].withdrawText);
         }
@@ -57,10 +58,11 @@ bot.hears('ငွေထုတ်ချင်တယ်', (ctx) => {
 });
 bot.hears('Account ဖွင့်နည်း', (ctx) => {
     let videoLink = "Sorry. No video currently available";
-    if(ctx.chat.type === "group"){
+    if(ctx.chat.type.toLowerCase().includes("group")){
         if(groups[ctx.chat.title])videoLink = groups[ctx.chat.title].video;
+        ctx.reply(videoLink);
     }
-    ctx.reply(videoLink);
+
 });
 bot.on('new_chat_members', ctx => {
     console.log("Chat Member Updated");
